@@ -919,8 +919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minigameViewPrefab: {fileID: 3101646313895040572, guid: 0d29f39d9030db94381549cdf353ed2f, type: 3}
   minigameViewParent: {fileID: 535605141}
-  minigames:
-  - {fileID: 11400000, guid: 61ce1e3c5c2d6294fa3f76723091916a, type: 2}
+  minigames: {fileID: 11400000, guid: a465b02130433474b884773011fd3df2, type: 2}
 --- !u!1 &1081201732
 GameObject:
   m_ObjectHideFlags: 0

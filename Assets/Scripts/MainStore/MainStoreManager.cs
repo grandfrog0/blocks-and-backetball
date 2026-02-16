@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,19 @@ namespace MainStore
         [SerializeField] MinigameView minigameViewPrefab;
         [SerializeField] Transform minigameViewParent;
 
-        [SerializeField] List<StoreMinigame> minigames;
+        [SerializeField] SavedMinigames minigames;
         public void Start()
         {
-            foreach (StoreMinigame minigame in minigames)
+            foreach (StoreMinigame minigame in minigames.Saved)
             {
                 MinigameView view = Instantiate(minigameViewPrefab, minigameViewParent);
-                view.Subscribe(minigame, () => SceneManager.LoadScene(minigame.Scene.buildIndex));
+                view.Subscribe(minigame, () => LoadScene(minigame.SceneName));
             }
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

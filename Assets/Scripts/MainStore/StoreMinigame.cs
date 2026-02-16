@@ -8,7 +8,7 @@ namespace MainStore
     [CreateAssetMenu(fileName = "Minigame", menuName = "SO/Store Minigame")]
     public class StoreMinigame : ScriptableObject
     {
-        public Scene Scene;
+        public string SceneName;
 
         public Sprite Icon;
         public float IngameTime;
