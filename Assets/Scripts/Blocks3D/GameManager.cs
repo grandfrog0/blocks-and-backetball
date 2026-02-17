@@ -1,3 +1,4 @@
+using MainStore;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -19,7 +20,24 @@ namespace Blocks3D
         private Coroutine _gameRoutine;
 
         public PlacementConfig PlacementConfig;
+        public bool[,] CenterMap { get; private set; }
 
+        private int _readyCornersCount;
+        public int ReadyCornersCount
+        {
+            get => _readyCornersCount;
+            set
+            {
+                _readyCornersCount = value;
+
+                if (_readyCornersCount == 4)
+                {
+                    Next();
+                }
+            }
+        }
+
+        [SerializeField] Transform gameFieldTransform;
         [SerializeField] Corner cornerPrefab;
         [SerializeField] GameObject holderPrefab;
         [SerializeField] MovingBlock blockPrefab;
@@ -27,6 +45,25 @@ namespace Blocks3D
         [SerializeField] float cellSize = 1f;
         private List<Transform> _blocks = new();
         private BlocksField _blocksField;
+
+        /// <summary>
+        /// In-game time (in milliseconds)
+        /// </summary>
+        public float IngameTime;
+        [SerializeField] StoreMinigame storeMinigame;
+
+        public UnityEvent<float> OnBestChanged;
+        [SerializeField] Blocks3DGameData gameData;
+        private float _score;
+        private float BestScore
+        {
+            get => gameData.BestScore;
+            set
+            {
+                gameData.BestScore = value;
+                OnBestChanged.Invoke(value);
+            }
+        }
 
         public void StartGame()
         {
@@ -39,7 +76,8 @@ namespace Blocks3D
 
         private void PrepareGameField()
         {
-            bool[,] centerMap = new bool[PlacementConfig.Size, PlacementConfig.Size];
+            CenterMap = new bool[PlacementConfig.Size, PlacementConfig.Size];
+            ReadyCornersCount = 0;
 
             List<Vector2Int> cornerPositions = new()
             {
@@ -57,14 +95,15 @@ namespace Blocks3D
                 Corner corner = Instantiate(
                     cornerPrefab,
                     new Vector3(startPos.x + v2.x * PlacementConfig.Size * cellSize, startPos.y, startPos.z + v2.y * PlacementConfig.Size * cellSize),
-                    Quaternion.identity
+                    Quaternion.identity,
+                    gameFieldTransform
                     );
 
                 for (int y = -PlacementConfig.Size + 1; y <= 0; y++)
                 {
                     for (int x = 0; x <= PlacementConfig.Size - 1; x++)
                     {
-                        Instantiate(holderPrefab, corner.transform.position + new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity);
+                        Instantiate(holderPrefab, corner.transform.position + new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity, gameFieldTransform);
                     }
                 }
 
@@ -83,14 +122,12 @@ namespace Blocks3D
                     block.transform.Translate(-cellSize / 2, 0, cellSize / 2);
 
                     block.Corner = corner;
-                    block.GameManager = this;
-
                     corner.PlacedBlocks.Add(blockV2);
                 }
 
                 corner.Direction = new Vector3(-v2.x, 0, -v2.y);
                 corner.CellSize = cellSize;
-                corner.CenterMap = centerMap;
+                corner.GameManager = this;
             }
         }
 
@@ -103,6 +140,7 @@ namespace Blocks3D
                 OnTimerChanged.Invoke(t);
                 OnTimerPercentChanged.Invoke(t / RoundTime);
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
+                IngameTime += Time.fixedDeltaTime;
             }
 
             PrepareResults();
@@ -114,14 +152,45 @@ namespace Blocks3D
             if (IsGameStarted)
             {
                 StopCoroutine(_gameRoutine);
+                _gameRoutine = null;
                 PrepareResults();
             }
+        }
+
+        public void Next()
+        {
+            _score++;
+            if (BestScore < _score)
+                BestScore = _score;
+
+            // destroy everything;
+            for (int i = 0; i < gameFieldTransform.childCount; i++)
+            {
+                Destroy(gameFieldTransform.GetChild(i).gameObject);
+            }
+
+            PrepareGameField();
         }
 
         private void PrepareResults()
         {
             OnBeforeGameEnd.Invoke();
+
+            if (BestScore < _score)
+                BestScore = _score;
+
             OnLose.Invoke();
+        }
+
+        private void Start()
+        {
+            OnBestChanged.Invoke(BestScore);
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("Ingame-time: " + IngameTime);
+            storeMinigame.IngameTime += IngameTime;
         }
     }
 }

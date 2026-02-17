@@ -16,7 +16,9 @@ public class MinigameView : MonoBehaviour
     public void Subscribe(StoreMinigame minigame, UnityAction onClick)
     {
         iconImage.sprite = minigame.Icon;
-        ingameTimeText.SetValues(minigame.IngameTime / 3600, minigame.IngameTime / 60 % 60);
+
+        float ingameTimeMinutes = minigame.IngameTime / 60f;
+        ingameTimeText.SetValues(ingameTimeMinutes / 60, ingameTimeMinutes % 60);
 
         button.onClick.AddListener(onClick);
     }

@@ -1,13 +1,14 @@
 using Blocks3D;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Blocks3D
 {
     public class MovingBlock : MonoBehaviour
     {
-        public GameManager GameManager { get; set; }
+        [SerializeField] DisposableParticles crashParticles;
         public Corner Corner { get; set; }
         private void OnMouseDown()
         {
@@ -16,10 +17,18 @@ namespace Blocks3D
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out MovingBlock _))
+            if (collision.gameObject.TryGetComponent(out MovingBlock _) && !gameObject.IsDestroyed())
             {
-                GameManager.LoseGame();
+                Corner.Crash();
+                Crash();
             }
+        }
+
+        public void Crash()
+        {
+            crashParticles.Play();
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

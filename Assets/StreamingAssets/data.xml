@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <playerName>PlayerBobka</playerName>
+  <points>
+    <Vector2Int>
+      <x>-1</x>
+      <y>1</y>
+    </Vector2Int>
+    <Vector2Int>
+      <x>2</x>
+      <y>2</y>
+    </Vector2Int>
+    <Vector2Int>
+      <x>0</x>
+      <y>0</y>
+    </Vector2Int>
+  </points>
+  <time>23.1197071</time>
+</TestData>
