@@ -1,4 +1,5 @@
 using MainStore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -13,7 +14,6 @@ namespace Blocks3D
         public UnityEvent<float> OnTimerChanged;
         public UnityEvent<float> OnTimerPercentChanged;
         public UnityEvent OnBeforeGameEnd;
-        public UnityEvent OnLose;
 
         public bool IsGameStarted => _gameRoutine != null;
         public float RoundTime = 20f;
@@ -53,14 +53,14 @@ namespace Blocks3D
         [SerializeField] StoreMinigame storeMinigame;
 
         public UnityEvent<float> OnBestChanged;
-        [SerializeField] Blocks3DGameData gameData;
+        [SerializeField] UserConfig userConfig;
         private float _score;
         private float BestScore
         {
-            get => gameData.BestScore;
+            get => userConfig.BestScore;
             set
             {
-                gameData.BestScore = value;
+                userConfig.BestScore = value;
                 OnBestChanged.Invoke(value);
             }
         }
@@ -178,8 +178,6 @@ namespace Blocks3D
 
             if (BestScore < _score)
                 BestScore = _score;
-
-            OnLose.Invoke();
         }
 
         private void Start()

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe1899d0bce43c84b95ce299c1c0eeb5, type: 3}
-  m_Name: Blocks3DGameData
+  m_Script: {fileID: 11500000, guid: 11407c3bf2d31d74d83d6a6a16d99fe1, type: 3}
+  m_Name: Settings
   m_EditorClassIdentifier: 
-  BestScore: 3
-  prizeTimeText: 2026.02.18 10:24:50
+  IsSoundOn: 1
+  IsMusicOn: 1

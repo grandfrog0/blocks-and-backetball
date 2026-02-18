@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FormattedText : MonoBehaviour
 {
-    [SerializeField] string format = "{0}";
+    public string format = "{0}";
     [SerializeField] TMP_Text text;
 
     public void SetValue(float value)
@@ -15,5 +15,9 @@ public class FormattedText : MonoBehaviour
     public void SetValues(params object[] values)
     {
         text.text = string.Format(format, values);
+    }
+    public void Refresh()
+    {
+        text.text = format;
     }
 }

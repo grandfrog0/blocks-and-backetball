@@ -11,10 +11,9 @@ namespace MainStore
         [SerializeField] MinigameView minigameViewPrefab;
         [SerializeField] Transform minigameViewParent;
 
-        [SerializeField] SavedMinigames minigames;
         public void Start()
         {
-            foreach (StoreMinigame minigame in minigames.Saved)
+            foreach (StoreMinigame minigame in GlobalManager.Instance.Minigames)
             {
                 MinigameView view = Instantiate(minigameViewPrefab, minigameViewParent);
                 view.Subscribe(minigame, () => LoadScene(minigame.SceneName));

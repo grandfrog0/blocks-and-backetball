@@ -122,6 +122,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &44935380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 44935381}
+  - component: {fileID: 44935382}
+  m_Layer: 0
+  m_Name: Global Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &44935381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44935380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &44935382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44935380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 218bd48d782b7c14e9bd10e429f9d304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storeData: {fileID: 11400000, guid: a465b02130433474b884773011fd3df2, type: 2}
 --- !u!1 &182732176
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minigameViewPrefab: {fileID: 3101646313895040572, guid: 0d29f39d9030db94381549cdf353ed2f, type: 3}
   minigameViewParent: {fileID: 535605141}
-  minigames: {fileID: 11400000, guid: a465b02130433474b884773011fd3df2, type: 2}
+  storeData: {fileID: 11400000, guid: a465b02130433474b884773011fd3df2, type: 2}
 --- !u!1 &1081201732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,5 +1151,6 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 229650810}
+  - {fileID: 44935381}
   - {fileID: 1075267320}
   - {fileID: 1081201736}

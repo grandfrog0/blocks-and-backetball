@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444c7f0f62a640644abde603722355c8, type: 3}
-  m_Name: Minigames
+  m_Script: {fileID: 11500000, guid: 325e945b2c772774596a9cb96375056e, type: 3}
+  m_Name: DailyReward
   m_EditorClassIdentifier: 
-  Saved:
-  - {fileID: 11400000, guid: 61ce1e3c5c2d6294fa3f76723091916a, type: 2}
-  - {fileID: 11400000, guid: a5e5780eba5bbb54aa9e71f5d8314cc8, type: 2}
+  UserConfig: {fileID: 11400000, guid: 6522222bbd3256a43b69f8885f36a580, type: 2}
+  PrizeCount: 99
+  refreshRewardTimeText: 01:00:00:00
