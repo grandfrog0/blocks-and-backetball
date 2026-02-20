@@ -17,7 +17,7 @@ namespace Blocks3D
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out MovingBlock _) && !gameObject.IsDestroyed())
+            if (collision.gameObject.TryGetComponent(out MovingBlock _) && !gameObject.IsDestroyed() && Corner.IsMoving)
             {
                 Corner.Crash();
                 Crash();
@@ -26,6 +26,7 @@ namespace Blocks3D
 
         public void Crash()
         {
+            crashParticles.transform.forward = Corner.Direction + Vector3.up;
             crashParticles.Play();
             //Destroy(gameObject);
             gameObject.SetActive(false);

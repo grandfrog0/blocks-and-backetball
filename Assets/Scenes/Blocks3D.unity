@@ -687,7 +687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &208110358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2938,7 +2938,7 @@ GameObject:
   - component: {fileID: 751970389}
   - component: {fileID: 751970391}
   m_Layer: 5
-  m_Name: Timer Text
+  m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3149,6 +3149,7 @@ GameObject:
   - component: {fileID: 833756458}
   - component: {fileID: 833756459}
   - component: {fileID: 833756460}
+  - component: {fileID: 833756461}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3194,21 +3195,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-  OnTimerChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 751970391}
-        m_TargetAssemblyTypeName: FormattedText, Assembly-CSharp
-        m_MethodName: SetValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
   OnTimerPercentChanged:
     m_PersistentCalls:
@@ -3298,6 +3284,21 @@ MonoBehaviour:
   cellSize: 3.375
   IngameTime: 0
   storeMinigame: {fileID: 11400000, guid: 61ce1e3c5c2d6294fa3f76723091916a, type: 2}
+  OnScoreChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 751970391}
+        m_TargetAssemblyTypeName: FormattedText, Assembly-CSharp
+        m_MethodName: SetValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnBestChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3313,7 +3314,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  gameData: {fileID: 11400000, guid: 77383e029a0a207488197787d079888b, type: 2}
+  userConfig: {fileID: 11400000, guid: 6522222bbd3256a43b69f8885f36a580, type: 2}
 --- !u!4 &833756457
 Transform:
   m_ObjectHideFlags: 0
@@ -3441,6 +3442,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   Settings: {fileID: 11400000, guid: defdd5c42180aa747a412c4b9cc26b5c, type: 2}
+--- !u!114 &833756461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833756455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb48da01dcb9af5439741d0520e70c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blocksPlacement: {fileID: 11400000, guid: 3471abe3cf8fae648baf1d13b08a25cf, type: 2}
 --- !u!1 &856457052
 GameObject:
   m_ObjectHideFlags: 0

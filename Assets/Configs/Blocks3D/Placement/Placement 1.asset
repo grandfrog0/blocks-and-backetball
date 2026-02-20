@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe1f216b0619e0148b49aee9d739c706, type: 3}
-  m_Name: TestPlacement 1
+  m_Script: {fileID: 11500000, guid: faf30d8111b42754cb5f8045e6e45b9a, type: 3}
+  m_Name: Placement 1
   m_EditorClassIdentifier: 
   Size: 2
-  Fields:
-  - placement: []
-  - placement:
-    - {x: 0, y: -1}
-  - placement:
-    - {x: 1, y: -1}
-  - placement:
-    - {x: 1, y: 0}
-  - placement:
-    - {x: 0, y: 0}
+  Left: []
+  Up:
+  - {x: 1, y: 1}
+  Right:
+  - {x: 1, y: 0}
+  Down:
+  - {x: 0, y: 0}
+  - {x: 0, y: 1}

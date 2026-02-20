@@ -2,16 +2,19 @@ using MainStore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities.UniversalDelegates;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+using UnityEngine.WSA;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Blocks3D
 {
     public class GameManager : MonoBehaviour
     {
         public UnityEvent OnBeforeGameStart;
-        public UnityEvent<float> OnTimerChanged;
         public UnityEvent<float> OnTimerPercentChanged;
         public UnityEvent OnBeforeGameEnd;
 
@@ -19,23 +22,8 @@ namespace Blocks3D
         public float RoundTime = 20f;
         private Coroutine _gameRoutine;
 
-        public PlacementConfig PlacementConfig;
+        public BlocksPlacement PlacementConfig;
         public bool[,] CenterMap { get; private set; }
-
-        private int _readyCornersCount;
-        public int ReadyCornersCount
-        {
-            get => _readyCornersCount;
-            set
-            {
-                _readyCornersCount = value;
-
-                if (_readyCornersCount == 4)
-                {
-                    Next();
-                }
-            }
-        }
 
         [SerializeField] Transform gameFieldTransform;
         [SerializeField] Corner cornerPrefab;
@@ -47,11 +35,12 @@ namespace Blocks3D
         private BlocksField _blocksField;
 
         /// <summary>
-        /// In-game time (in milliseconds)
+        /// In-game time (in seconds)
         /// </summary>
         public float IngameTime;
         [SerializeField] StoreMinigame storeMinigame;
 
+        public UnityEvent<float> OnScoreChanged;
         public UnityEvent<float> OnBestChanged;
         [SerializeField] UserConfig userConfig;
         private float _score;
@@ -76,8 +65,13 @@ namespace Blocks3D
 
         private void PrepareGameField()
         {
-            CenterMap = new bool[PlacementConfig.Size, PlacementConfig.Size];
-            ReadyCornersCount = 0;
+            StartCoroutine(PrepareGameRoutine());
+        }
+        private IEnumerator PrepareGameRoutine()
+        {
+            PlacementConfig config = PlacementConfig.GetRandomConfig();
+
+            CenterMap = new bool[config.Size, config.Size];
 
             List<Vector2Int> cornerPositions = new()
             {
@@ -88,33 +82,52 @@ namespace Blocks3D
                 new Vector2Int(0, -1)
             };
 
+            List<BlocksField> placements = config.GetPlacements();
+
+            List<Transform> corners = new();
+            List<Vector3> cornersStart = new();
+            List<Vector3> cornersEnd = new();
             for (int i = 0; i < cornerPositions.Count; i++)
             {
                 Vector2Int v2 = cornerPositions[i];
 
+                Vector3 spawnCornerPos = new Vector3(startPos.x + v2.x * config.Size * cellSize, startPos.y, startPos.z + v2.y * config.Size * cellSize);
+                Vector3 endCornerPos = spawnCornerPos;
+                spawnCornerPos -= Vector3.up * cellSize;
+
                 Corner corner = Instantiate(
                     cornerPrefab,
-                    new Vector3(startPos.x + v2.x * PlacementConfig.Size * cellSize, startPos.y, startPos.z + v2.y * PlacementConfig.Size * cellSize),
+                    spawnCornerPos,
                     Quaternion.identity,
                     gameFieldTransform
                     );
 
-                for (int y = -PlacementConfig.Size + 1; y <= 0; y++)
+                List<Transform> holders = new();
+                List<Vector3> holdersSpawnPositions = new();
+                List<Vector3> holderEndPositions = new();
+                for (int y = -config.Size + 1; y <= 0; y++)
                 {
-                    for (int x = 0; x <= PlacementConfig.Size - 1; x++)
+                    for (int x = 0; x <= config.Size - 1; x++)
                     {
-                        Instantiate(holderPrefab, corner.transform.position + new Vector3(x * cellSize, 0, y * cellSize), Quaternion.identity, gameFieldTransform);
+                        Vector3 start = endCornerPos + new Vector3(x * cellSize, 0, y * cellSize);
+                        Vector3 end = start;
+                        start -= Vector3.up * cellSize;
+
+                        holders.Add(Instantiate(holderPrefab, start, Quaternion.identity, gameFieldTransform).transform);
+                        holdersSpawnPositions.Add(start);
+                        holderEndPositions.Add(end);
                     }
                 }
 
-                corner.transform.localScale = new Vector3(cellSize * PlacementConfig.Size, 2, cellSize * PlacementConfig.Size);
-                corner.transform.Translate(cellSize / 2, 0, -cellSize / 2);
+                corner.transform.localScale = new Vector3(cellSize * config.Size, 2, cellSize * config.Size);
+                spawnCornerPos += new Vector3(cellSize / 2, 0, -cellSize / 2);
+                endCornerPos += new Vector3(cellSize / 2, 0, -cellSize / 2);
 
-                foreach (Vector2Int blockV2 in PlacementConfig.Fields[i].placement)
+                foreach (Vector2Int blockV2 in placements[i].placement)
                 {
                     MovingBlock block = Instantiate(
                         blockPrefab,
-                        corner.transform.position + new Vector3(blockV2.x * cellSize, 2, blockV2.y * cellSize),
+                        corner.transform.position + new Vector3(blockV2.x * cellSize, 2, -blockV2.y * cellSize),
                         Quaternion.identity
                         );
 
@@ -128,6 +141,39 @@ namespace Blocks3D
                 corner.Direction = new Vector3(-v2.x, 0, -v2.y);
                 corner.CellSize = cellSize;
                 corner.GameManager = this;
+
+                if (placements[i].placement.Count != 0)
+                {
+                    corners.Add(corner.transform);
+                    cornersStart.Add(spawnCornerPos);
+                    cornersEnd.Add(endCornerPos);
+                }
+                else
+                {
+                    corner.transform.position = endCornerPos;
+                }
+
+                for (float t = 0; t <= 1; t += Time.deltaTime / 0.2f)
+                {
+                    for(int h = 0; h < holders.Count; h++)
+                    {
+                        holders[h].position = Vector3.Lerp(holdersSpawnPositions[h], holderEndPositions[h], t);
+                    }
+                    yield return null;
+                }
+                for (int h = 0; h < holders.Count; h++)
+                {
+                    holders[h].position = holderEndPositions[h];
+                }
+            }
+            for (int c = 0; c < corners.Count; c++)
+            {
+                for (float t = 0; t <= 1; t += Time.deltaTime / 0.2f)
+                {
+                    corners[c].transform.position = Vector3.Lerp(cornersStart[c], cornersEnd[c], t);
+                    yield return null;
+                }
+                corners[c].transform.position = cornersEnd[c];
             }
         }
 
@@ -137,7 +183,6 @@ namespace Blocks3D
 
             for (float t = RoundTime; t >= 0; t -= Time.fixedDeltaTime)
             {
-                OnTimerChanged.Invoke(t);
                 OnTimerPercentChanged.Invoke(t / RoundTime);
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
                 IngameTime += Time.fixedDeltaTime;
@@ -160,6 +205,8 @@ namespace Blocks3D
         public void Next()
         {
             _score++;
+            OnScoreChanged.Invoke(_score);
+
             if (BestScore < _score)
                 BestScore = _score;
 
