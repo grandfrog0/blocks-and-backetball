@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 namespace MainStore
 {
-    [CreateAssetMenu(fileName = "Minigame", menuName = "SO/Store Minigame")]
-    public class StoreMinigame : ScriptableObject
+    [Serializable]
+    public class StoreMinigame
     {
         public string SceneName;
 
         public Sprite Icon;
         public float IngameTime;
+
+        public override string ToString() => SceneName;
     }
 }

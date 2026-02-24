@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UserConfig", menuName = "SO/General/User Config")]
-public class UserConfig : ScriptableObject
+//[CreateAssetMenu(fileName = "UserConfig", menuName = "SO/General/User Config")]
+[Serializable]
+public class UserConfig
 {
     public float BestScore;
     public float Coins;

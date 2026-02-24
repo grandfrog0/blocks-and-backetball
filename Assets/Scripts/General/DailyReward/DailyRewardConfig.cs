@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DailyReward", menuName = "SO/General/Daily Reward Config")]
-public class DailyRewardConfig : ScriptableObject
+[Serializable]
+public class DailyRewardConfig
 {
     public UserConfig UserConfig;
     public float PrizeCount;

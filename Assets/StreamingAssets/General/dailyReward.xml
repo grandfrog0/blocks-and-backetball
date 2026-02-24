@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DailyRewardConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <UserConfig>
+    <BestScore>0</BestScore>
+    <Coins>0</Coins>
+    <SettingsConfig>
+      <IsSoundOn>true</IsSoundOn>
+      <IsMusicOn>true</IsMusicOn>
+    </SettingsConfig>
+    <DailyRewards>
+      <float>10</float>
+      <float>20</float>
+      <float>30</float>
+      <float>40</float>
+      <float>60</float>
+      <float>75</float>
+      <float>100</float>
+    </DailyRewards>
+    <LastReward>0</LastReward>
+    <PrizeTime>2026-02-24T12:56:21.5972416+05:00</PrizeTime>
+  </UserConfig>
+  <PrizeCount>99</PrizeCount>
+  <RefreshRewardTime />
+</DailyRewardConfig>

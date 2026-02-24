@@ -38,8 +38,7 @@ namespace Blocks3D
         /// In-game time (in seconds)
         /// </summary>
         public float IngameTime;
-        [SerializeField] StoreMinigame storeMinigame;
-
+        
         public UnityEvent<float> OnScoreChanged;
         public UnityEvent<float> OnBestChanged;
         [SerializeField] UserConfig userConfig;
@@ -234,8 +233,11 @@ namespace Blocks3D
 
         private void OnDestroy()
         {
-            Debug.Log("Ingame-time: " + IngameTime);
-            storeMinigame.IngameTime += IngameTime;
+            if (GlobalManager.Instance)
+            {
+                GlobalManager.Instance.CurrentMinigame.IngameTime += IngameTime;
+            }
+            else Debug.Log("GlobalManager Instance does not exists!");
         }
     }
 }

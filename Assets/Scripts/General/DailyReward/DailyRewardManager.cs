@@ -21,7 +21,9 @@ public class DailyRewardManager : MonoBehaviour
         get => dailyRewardConfig.UserConfig.PrizeTime;
         set => dailyRewardConfig.UserConfig.PrizeTime = value;
     }
+
     [SerializeField] DailyRewardConfig dailyRewardConfig;
+    private XmlItemParser<DailyRewardConfig> _parser;
 
     private void TakeReward()
     {
@@ -76,8 +78,16 @@ public class DailyRewardManager : MonoBehaviour
             return;
         }
 
+        _parser = new XmlItemParser<DailyRewardConfig>("General/dailyReward.xml", dailyRewardConfig);
+        _parser.Load();
+        dailyRewardConfig = _parser.Value;
+
         coinsText.SetValue(GlobalManager.Instance.Coins);
         StartCoroutine(UpdateTimeLeftRoutine());
+    }
+    private void OnDisable()
+    {
+        _parser.Save();
     }
 
     private IEnumerator UpdateTimeLeftRoutine()
