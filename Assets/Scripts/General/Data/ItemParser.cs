@@ -34,9 +34,7 @@ public class ItemParser<T>
 
     public void Save()
     {
-        FileInfo file = new FileInfo(CurrentPath);
-
-        string json = JsonUtility.ToJson(file, prettyPrint: true);
+        string json = JsonUtility.ToJson(Value, prettyPrint: true);
         File.WriteAllText(CurrentPath, json);
     }
 }

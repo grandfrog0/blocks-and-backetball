@@ -1,14 +1,7 @@
-using MainStore;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Entities.UniversalDelegates;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
-using UnityEngine.WSA;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Blocks3D
 {
@@ -18,7 +11,7 @@ namespace Blocks3D
         public UnityEvent<float> OnTimerPercentChanged;
         public UnityEvent OnTimerTick;
         public UnityEvent OnBeforeGameEnd;
-        
+
         public UnityEvent OnGameWin;
         public UnityEvent OnGameLose;
 
@@ -42,7 +35,7 @@ namespace Blocks3D
         /// In-game time (in seconds)
         /// </summary>
         public float IngameTime;
-        
+
         public UnityEvent<float> OnScoreChanged;
         public UnityEvent<float> OnBestChanged;
         [SerializeField] DailyRewardManager dailyRewardManager;
@@ -158,7 +151,7 @@ namespace Blocks3D
 
                 for (float t = 0; t <= 1; t += Time.deltaTime / 0.2f)
                 {
-                    for(int h = 0; h < holders.Count; h++)
+                    for (int h = 0; h < holders.Count; h++)
                     {
                         holders[h].position = Vector3.Lerp(holdersSpawnPositions[h], holderEndPositions[h], t);
                     }
