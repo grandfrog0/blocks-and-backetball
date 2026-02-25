@@ -7,20 +7,20 @@ public class SettingsManager : MonoBehaviour
 {
     [SerializeField] UnityEvent<bool> OnSoundValueChanged = new();
     [SerializeField] UnityEvent<bool> OnMusicValueChanged = new();
-    [SerializeField] SettingsConfig Settings;
+    [SerializeField] DailyRewardManager dailyRewardManager;
 
     public bool IsSoundOn
     {
-        get => Settings.IsSoundOn;
-        set => Settings.IsSoundOn = value;
+        get => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn;
+        set => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn = value;
     }
     public bool IsMusicOn
     {
-        get => Settings.IsMusicOn;
-        set => Settings.IsMusicOn = value;
+        get => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn;
+        set => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn = value;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         OnSoundValueChanged.Invoke(IsSoundOn);
         OnMusicValueChanged.Invoke(IsMusicOn);

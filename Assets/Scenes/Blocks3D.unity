@@ -3812,7 +3812,6 @@ MonoBehaviour:
   startPos: {x: -4, y: 0, z: 4}
   cellSize: 3.375
   IngameTime: 0
-  storeMinigame: {fileID: 11400000, guid: 61ce1e3c5c2d6294fa3f76723091916a, type: 2}
   OnScoreChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3843,7 +3842,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  userConfig: {fileID: 11400000, guid: 6522222bbd3256a43b69f8885f36a580, type: 2}
+  dailyRewardManager: {fileID: 833756459}
 --- !u!4 &833756457
 Transform:
   m_ObjectHideFlags: 0
@@ -3903,7 +3902,6 @@ MonoBehaviour:
   coinsText: {fileID: 734836708}
   waitRewardFormat: Reward in<br>{0:00}:{1:00}:{2:00}
   readyRewardFormat: Reward is ready!
-  dailyRewardConfig: {fileID: 11400000, guid: 61611dc447e834942ad2a669ae43967b, type: 2}
 --- !u!114 &833756460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3970,7 +3968,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Settings: {fileID: 11400000, guid: defdd5c42180aa747a412c4b9cc26b5c, type: 2}
+  dailyRewardManager: {fileID: 833756459}
 --- !u!114 &833756461
 MonoBehaviour:
   m_ObjectHideFlags: 0

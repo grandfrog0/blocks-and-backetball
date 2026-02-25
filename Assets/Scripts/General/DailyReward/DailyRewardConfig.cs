@@ -7,15 +7,14 @@ using UnityEngine;
 public class DailyRewardConfig
 {
     public UserConfig UserConfig;
-    public float PrizeCount;
-    public TimeSpan RefreshRewardTime;
+    public long RefreshRewardTime = new TimeSpan(24, 0, 0).Ticks;
     [SerializeField] string refreshRewardTimeText;
 
-    private void OnValidate()
-    {
-        if (TimeSpan.TryParse(refreshRewardTimeText, out RefreshRewardTime))
-        {
+    //private void OnValidate()
+    //{
+        //if (TimeSpan.TryParse(refreshRewardTimeText, out RefreshRewardTime))
+        //{
             //Debug.Log(RefreshRewardTime.TotalMinutes);
-        }
-    }
+        //}
+    //}
 }

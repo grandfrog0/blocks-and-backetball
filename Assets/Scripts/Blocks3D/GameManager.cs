@@ -41,14 +41,14 @@ namespace Blocks3D
         
         public UnityEvent<float> OnScoreChanged;
         public UnityEvent<float> OnBestChanged;
-        [SerializeField] UserConfig userConfig;
+        [SerializeField] DailyRewardManager dailyRewardManager;
         private float _score;
         private float BestScore
         {
-            get => userConfig.BestScore;
+            get => dailyRewardManager.DailyRewardConfig.UserConfig.BestScore;
             set
             {
-                userConfig.BestScore = value;
+                dailyRewardManager.DailyRewardConfig.UserConfig.BestScore = value;
                 OnBestChanged.Invoke(value);
             }
         }

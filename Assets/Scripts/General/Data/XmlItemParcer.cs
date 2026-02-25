@@ -35,6 +35,7 @@ public class XmlItemParser<T>
         using (StreamReader reader = new StreamReader(CurrentPath))
         {
             Value = (T)_serializer.Deserialize(reader);
+            Debug.Log(Value);
         }
     }
 

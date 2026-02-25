@@ -4,7 +4,7 @@
     <BestScore>0</BestScore>
     <Coins>0</Coins>
     <SettingsConfig>
-      <IsSoundOn>true</IsSoundOn>
+      <IsSoundOn>false</IsSoundOn>
       <IsMusicOn>true</IsMusicOn>
     </SettingsConfig>
     <DailyRewards>
@@ -16,9 +16,8 @@
       <float>75</float>
       <float>100</float>
     </DailyRewards>
-    <LastReward>0</LastReward>
-    <PrizeTime>2026-02-24T12:56:21.5972416+05:00</PrizeTime>
+    <LastReward>100</LastReward>
+    <PrizeTime>2026-02-25T10:36:56.5426295+05:00</PrizeTime>
   </UserConfig>
-  <PrizeCount>99</PrizeCount>
-  <RefreshRewardTime />
+  <RefreshRewardTime>864000000000</RefreshRewardTime>
 </DailyRewardConfig>
