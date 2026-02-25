@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DailyRewardConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <UserConfig>
-    <BestScore>0</BestScore>
+    <BestScore>2</BestScore>
     <Coins>0</Coins>
     <SettingsConfig>
       <IsSoundOn>false</IsSoundOn>
@@ -17,7 +17,7 @@
       <float>100</float>
     </DailyRewards>
     <LastReward>100</LastReward>
-    <PrizeTime>2026-02-25T10:36:56.5426295+05:00</PrizeTime>
+    <PrizeTime>2026-02-26T10:54:45.1703272+05:00</PrizeTime>
   </UserConfig>
   <RefreshRewardTime>864000000000</RefreshRewardTime>
 </DailyRewardConfig>

@@ -16,7 +16,11 @@ namespace Blocks3D
     {
         public UnityEvent OnBeforeGameStart;
         public UnityEvent<float> OnTimerPercentChanged;
+        public UnityEvent OnTimerTick;
         public UnityEvent OnBeforeGameEnd;
+        
+        public UnityEvent OnGameWin;
+        public UnityEvent OnGameLose;
 
         public bool IsGameStarted => _gameRoutine != null;
         public float RoundTime = 20f;
@@ -180,15 +184,17 @@ namespace Blocks3D
         {
             PrepareGameField();
 
-            for (float t = RoundTime; t >= 0; t -= Time.fixedDeltaTime)
+            float period = 1f;
+            for (float t = RoundTime; t >= 0; t -= period)
             {
                 OnTimerPercentChanged.Invoke(t / RoundTime);
-                yield return new WaitForSeconds(Time.fixedDeltaTime);
-                IngameTime += Time.fixedDeltaTime;
+                yield return new WaitForSeconds(period);
+                IngameTime += period;
             }
 
             PrepareResults();
             _gameRoutine = null;
+            OnGameWin.Invoke();
         }
 
         public void LoseGame()
@@ -198,6 +204,7 @@ namespace Blocks3D
                 StopCoroutine(_gameRoutine);
                 _gameRoutine = null;
                 PrepareResults();
+                OnGameLose.Invoke();
             }
         }
 
