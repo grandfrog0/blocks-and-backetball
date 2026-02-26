@@ -4763,10 +4763,10 @@ GameObject:
   - component: {fileID: 403964}
   - component: {fileID: 5403960}
   - component: {fileID: 13503960}
-  - component: {fileID: 114458397666130364}
+  - component: {fileID: 5776489181380602230}
   m_Layer: 10
   m_Name: BasketballFire
-  m_TagString: BasketBallFire
+  m_TagString: Basketball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4836,7 +4836,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.23
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114458397666130364
+--- !u!114 &5776489181380602230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

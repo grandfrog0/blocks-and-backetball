@@ -94,10 +94,10 @@ GameObject:
   - component: {fileID: 494842}
   - component: {fileID: 5494840}
   - component: {fileID: 13594840}
-  - component: {fileID: 114475184359900118}
+  - component: {fileID: 5340167616692492643}
   m_Layer: 10
   m_Name: Basketball
-  m_TagString: BasketBall
+  m_TagString: Basketball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.23
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114475184359900118
+--- !u!114 &5340167616692492643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
