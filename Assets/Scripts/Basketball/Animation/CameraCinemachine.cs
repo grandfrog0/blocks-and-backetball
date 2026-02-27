@@ -7,9 +7,15 @@ public class CameraCinemachine : MonoBehaviour
     [SerializeField] List<Transform> states;
     [SerializeField] float footageTime = 0.25f;
     private Coroutine _stateRoutine;
+    private int _currentIndex = 0;
 
+    public void NextState()
+    {
+        SetState(++_currentIndex % states.Count);
+    }
     public void SetState(int index)
     {
+        _currentIndex = index;
         if (_stateRoutine != null)
         {
             StopCoroutine(_stateRoutine);
@@ -30,5 +36,10 @@ public class CameraCinemachine : MonoBehaviour
             transform.rotation = Quaternion.Slerp(startRot, endRot, t);
             yield return null;
         }
+    }
+
+    private void Start()
+    {
+        SetState(_currentIndex);
     }
 }

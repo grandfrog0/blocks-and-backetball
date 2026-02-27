@@ -45,25 +45,20 @@ namespace Basketball
                 OnBestChanged.Invoke(value);
             }
         }
+        private int _winScore;
+
+        [SerializeField] LevelsManager levelManager;
 
         public void OnBallGoal()
         {
             Score++;
-            if (Score >= BasketballGameConfig.NextLevelScoreCount)
-            {
-                BasketballGameConfig.CurrentLevel++;
-                OnLevelChanged.Invoke(BasketballGameConfig.CurrentLevel);
+            levelManager.AddScore();
 
-                BasketballGameConfig.NextLevelScoreCount++;
-                if (BasketballGameConfig.CurrentLevel == 2)
-                {
-                    BasketballGameConfig.NextLevelScoreCount = 999;
-                }
+            BasketballGameConfig.CurrentLevel = levelManager.CurrentLevel + 1;
+            OnLevelChanged.Invoke(BasketballGameConfig.CurrentLevel);
 
-                OnTargetChanged.Invoke(BasketballGameConfig.NextLevelScoreCount);
-
-                EndGame();
-            }
+            BasketballGameConfig.NextLevelScoreCount = Score + levelManager.TargetScore;
+            OnTargetChanged.Invoke(BasketballGameConfig.NextLevelScoreCount);
 
             if (Score > Best)
             {
@@ -75,6 +70,11 @@ namespace Basketball
         {
             Load();
             OnSceneStart.Invoke();
+
+            OnScoreChanged.Invoke(Score);
+            OnTargetChanged.Invoke(BasketballGameConfig.NextLevelScoreCount);
+            OnLevelChanged.Invoke(BasketballGameConfig.CurrentLevel);
+            OnBestChanged.Invoke(Best);
         }
 
         public void StartGame()
@@ -83,6 +83,7 @@ namespace Basketball
                 return;
 
             Score = 0;
+            _winScore = levelManager.TargetScore;
 
             _timerRoutine = StartCoroutine(TimerRoutine());
             OnLoadingEnd.Invoke();
@@ -108,6 +109,15 @@ namespace Basketball
                 StopCoroutine(_timerRoutine);
 
             IsPlaying = false;
+
+            if (Score >= _winScore)
+            {
+                OnWin.Invoke();
+            }
+            else
+            {
+                OnLose.Invoke();
+            }
         }
 
         private void Load()
