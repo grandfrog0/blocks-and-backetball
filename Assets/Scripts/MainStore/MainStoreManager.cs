@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace MainStore
 {
@@ -14,9 +15,19 @@ namespace MainStore
         [SerializeField] MinigameView minigameViewPrefab;
         [SerializeField] Transform minigameViewParent;
 
+        [SerializeField] Sprite serializeSprite;
+
         public void Start()
         {
             Debug.Log(("minigames load", string.Join(", ", GlobalManager.Instance.Minigames)));
+
+            //SpriteData data = new SpriteData()
+            //{
+            //    Width = serializeSprite.texture.width,
+            //    Height = serializeSprite.texture.height,
+            //    TextureBytes = ImageConversion.EncodeToPNG(serializeSprite.texture)
+            //};
+            //GlobalManager.Instance.Minigames[1].SpriteData = data;
 
             foreach (StoreMinigame minigame in GlobalManager.Instance.Minigames)
             {

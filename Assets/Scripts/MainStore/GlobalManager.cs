@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -38,6 +39,12 @@ public class GlobalManager : MonoBehaviour
 
         _minigamesParser = new Parser<StoreMinigame>(MinigamesPath, GlobalManager.Instance.Minigames);
         _minigamesParser.Load();
+
+        foreach(StoreMinigame game in GlobalManager.Instance.Minigames)
+        {
+            //game.
+        }
+
         MinigamesSavePaths.AddRange(_minigamesParser.SavePaths);
     }
 

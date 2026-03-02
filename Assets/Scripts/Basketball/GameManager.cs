@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Basketball
 {
@@ -35,17 +36,17 @@ namespace Basketball
                 OnScoreChanged.Invoke(value);
             }
         }
-        private int _best;
         public int Best
         {
-            get => _best;
+            get => (int)GlobalManager.Instance.CurrentMinigame.Best;
             set
             {
-                _best = value;
-                OnBestChanged.Invoke(value);
+                GlobalManager.Instance.CurrentMinigame.Best = (int)value;
+                OnBestChanged.Invoke((int)value);
             }
         }
         private int _winScore;
+        private float _ingameTime;
 
         [SerializeField] LevelsManager levelManager;
 
@@ -68,6 +69,12 @@ namespace Basketball
         
         private void Start()
         {
+            if (GlobalManager.Instance == null)
+            {
+                SceneManager.LoadScene(0);
+                return;
+            }
+
             Load();
             OnSceneStart.Invoke();
 
@@ -96,6 +103,7 @@ namespace Basketball
             for (float i = BasketballGameConfig.LevelAvailableTime; i >= 0 ; i--)
             {
                 OnTimerChanged.Invoke((int)i / 60, (int)i % 60);
+                _ingameTime += 1;
                 yield return new WaitForSeconds(1);
             }
 
@@ -133,6 +141,15 @@ namespace Basketball
                 LevelAvailableTime = 30
             };
             _gameConfigParser.Save();
+        }
+
+        private void OnDestroy()
+        {
+            if (GlobalManager.Instance)
+            {
+                GlobalManager.Instance.CurrentMinigame.IngameTime += _ingameTime;
+            }
+            else Debug.Log("GlobalManager Instance does not exists!");
         }
     }
 }
