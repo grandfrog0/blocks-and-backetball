@@ -28,8 +28,6 @@ namespace Blocks3D
         [SerializeField] MovingBlock blockPrefab;
         [SerializeField] Vector3 startPos;
         [SerializeField] float cellSize = 1f;
-        private List<Transform> _blocks = new();
-        private BlocksField _blocksField;
 
         /// <summary>
         /// In-game time (in seconds)
@@ -204,6 +202,7 @@ namespace Blocks3D
         public void Next()
         {
             _score++;
+            dailyRewardManager.AddCoins(1);
             OnScoreChanged.Invoke(_score);
 
             if (BestScore < _score)

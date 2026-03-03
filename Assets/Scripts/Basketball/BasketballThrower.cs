@@ -18,6 +18,8 @@ namespace Basketball
         private BasketballCollider _currentBall;
         private bool _canThrowNext = true;
 
+        [SerializeField] AudioSource fireBallThrowSound;
+
         public Rigidbody BallPrefab => gameManager.IsLastThrow ? fireBallPrefab : ballPrefab;
         public GameObject BallPreview => gameManager.IsLastThrow ? fireBallPreview : ballPreview;
         public GameObject AnotherBallPreview => !gameManager.IsLastThrow ? fireBallPreview : ballPreview;
@@ -42,7 +44,7 @@ namespace Basketball
                 return;
             }
 
-            BallPreview.transform.localPosition = Vector3.Lerp(BallPreview.transform.localPosition, previewReadyPos, 5 * Time.deltaTime);
+            BallPreview.transform.localPosition = Vector3.Lerp(BallPreview.transform.localPosition, previewReadyPos + Vector3.up * Mathf.Sin(Time.time * 2) * 0.01f, 5 * Time.deltaTime);
 
             if (Input.GetMouseButton(0))
             {
@@ -83,8 +85,9 @@ namespace Basketball
 
         private IEnumerator FireBallThrowingRoutine()
         {
-            Time.timeScale = 0.25f;
+            fireBallThrowSound.Play();
 
+            Time.timeScale = 0.25f; 
             bool isBallCollided = false;
             _currentBall.OnCollided.AddListener(OnFireBallCollided);
 

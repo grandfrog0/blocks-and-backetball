@@ -50,6 +50,7 @@ namespace Basketball
         private float _ingameTime;
 
         [SerializeField] LevelsManager levelManager;
+        [SerializeField] CameraCinemachine cameraCinemachine;
 
         public bool IsLastThrow { get; set; }
 
@@ -116,6 +117,7 @@ namespace Basketball
             }
 
             IsLastThrow = true;
+            cameraCinemachine.SetState(4);
             yield return new WaitWhile(() => IsLastThrow);
 
             _timerRoutine = null;

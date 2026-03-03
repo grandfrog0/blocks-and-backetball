@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DailyRewardConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <UserConfig>
-    <BestScore>2</BestScore>
-    <Coins>0</Coins>
+    <BestScore>5</BestScore>
+    <Coins>2</Coins>
     <SettingsConfig>
       <IsSoundOn>false</IsSoundOn>
       <IsMusicOn>true</IsMusicOn>

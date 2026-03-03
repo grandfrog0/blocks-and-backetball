@@ -32,15 +32,18 @@ public class DailyRewardManager : MonoBehaviour
         rewardIndex = Mathf.Clamp(++rewardIndex, 0, DailyRewardConfig.UserConfig.DailyRewards.Count - 1);
         float reward = DailyRewardConfig.UserConfig.DailyRewards[rewardIndex];
 
-        GlobalManager.Instance.Coins += reward;
+        AddCoins(reward);
 
         DailyRewardConfig.UserConfig.LastReward = reward;
-
         rewardText.SetValue(reward);
 
-        coinsText.SetValue(GlobalManager.Instance.Coins);
     }
 
+    public void AddCoins(float value)
+    {
+        GlobalManager.Instance.Coins += value;
+        coinsText.SetValue(GlobalManager.Instance.Coins);
+    }
     public void TryTakeReward()
     {
         if (GetTimeLeft() == TimeSpan.Zero)
