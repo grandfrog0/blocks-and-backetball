@@ -7,27 +7,42 @@ namespace Basketball
 {
     public class BasketballThrower : MonoBehaviour
     {
-        [SerializeField] Rigidbody ballPrefab;
-        [SerializeField] Transform throwPoint;
+        [SerializeField] Rigidbody ballPrefab, fireBallPrefab;
         [SerializeField] float throwPower = 10;
         [SerializeField] GameManager gameManager;
         private Vector2 _mouseDelta;
 
-        [SerializeField] GameObject ballPreview;
+        [SerializeField] GameObject ballPreview, fireBallPreview;
         [SerializeField] Vector3 previewReadyPos, previewNotReadyPosition;
 
         private BasketballCollider _currentBall;
         private bool _canThrowNext = true;
 
+        public Rigidbody BallPrefab => gameManager.IsLastThrow ? fireBallPrefab : ballPrefab;
+        public GameObject BallPreview => gameManager.IsLastThrow ? fireBallPreview : ballPreview;
+        public GameObject AnotherBallPreview => !gameManager.IsLastThrow ? fireBallPreview : ballPreview;
+
+
         private void Update()
         {
+            if (AnotherBallPreview.activeSelf)
+            {
+                AnotherBallPreview.transform.position = previewNotReadyPosition;
+                AnotherBallPreview.SetActive(false);
+            }
+            if (!BallPreview.activeSelf)
+            {
+                BallPreview.SetActive(true);
+                BallPreview.transform.rotation = Random.rotation;
+            }
+
             if (!gameManager.IsPlaying || !_canThrowNext)
             {
-                ballPreview.transform.localPosition = Vector3.Lerp(ballPreview.transform.localPosition, previewNotReadyPosition, 5 * Time.deltaTime);
+                BallPreview.transform.localPosition = Vector3.Lerp(BallPreview.transform.localPosition, previewNotReadyPosition, 5 * Time.deltaTime);
                 return;
             }
 
-            ballPreview.transform.localPosition = Vector3.Lerp(ballPreview.transform.localPosition, previewReadyPos, 5 * Time.deltaTime);
+            BallPreview.transform.localPosition = Vector3.Lerp(BallPreview.transform.localPosition, previewReadyPos, 5 * Time.deltaTime);
 
             if (Input.GetMouseButton(0))
             {
@@ -41,8 +56,8 @@ namespace Basketball
                     Vector2 axis = _mouseDelta;
                     Vector3 force = Camera.main.transform.rotation * new Vector3(axis.x, axis.y, axis.y) * throwPower;
 
-                    Rigidbody ball = Instantiate(ballPrefab, throwPoint.position, Random.rotation);
-                    ballPreview.transform.rotation = ball.transform.rotation;
+                    Rigidbody ball = Instantiate(BallPrefab, BallPreview.transform.position, Random.rotation);
+                    BallPreview.transform.rotation = ball.transform.rotation;
                     ball.AddForce(force, ForceMode.Impulse);
                     ball.angularVelocity = force;
 
@@ -52,12 +67,35 @@ namespace Basketball
                 }
 
                 _mouseDelta = Vector2.zero;
+
+                if (gameManager.IsLastThrow)
+                {
+                    StartCoroutine(FireBallThrowingRoutine());
+                }
+            }
+
+            void OnCurrentBallCollided()
+            {
+                _canThrowNext = true;
+                _currentBall.OnCollided.RemoveListener(OnCurrentBallCollided);
             }
         }
 
-        private void OnCurrentBallCollided()
+        private IEnumerator FireBallThrowingRoutine()
         {
-            _canThrowNext = true;
+            Time.timeScale = 0.25f;
+
+            bool isBallCollided = false;
+            _currentBall.OnCollided.AddListener(OnFireBallCollided);
+
+            yield return new WaitWhile(() => !isBallCollided);
+
+            _currentBall.OnCollided.RemoveListener(OnFireBallCollided);
+            Time.timeScale = 1f;
+
+            gameManager.IsLastThrow = false;
+
+            void OnFireBallCollided() => isBallCollided = true;
         }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class BasketballCollider : MonoBehaviour
 {
     public UnityEvent OnCollided;
+    private bool _isDestroying;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -13,6 +14,12 @@ public class BasketballCollider : MonoBehaviour
         {
             collision.gameObject.GetComponent<AudioSource>().Play();
         }
+        else if (!_isDestroying && collision.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject, 4);
+            _isDestroying = true;
+        }
+
         OnCollided.Invoke();
     }
 }

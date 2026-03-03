@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -50,6 +51,8 @@ namespace Basketball
 
         [SerializeField] LevelsManager levelManager;
 
+        public bool IsLastThrow { get; set; }
+
         public void OnBallGoal()
         {
             Score++;
@@ -65,6 +68,11 @@ namespace Basketball
             {
                 Best = Score;
             }
+        }
+        public void OnFireBallGoal()
+        {
+            Score += 4;
+            OnBallGoal();
         }
         
         private void Start()
@@ -107,6 +115,9 @@ namespace Basketball
                 yield return new WaitForSeconds(1);
             }
 
+            IsLastThrow = true;
+            yield return new WaitWhile(() => IsLastThrow);
+
             _timerRoutine = null;
             EndGame();
         }
@@ -117,6 +128,13 @@ namespace Basketball
                 StopCoroutine(_timerRoutine);
 
             IsPlaying = false;
+
+            StartCoroutine(PrepareGameResults());
+        }
+
+        private IEnumerator PrepareGameResults()
+        {
+            yield return new WaitForSeconds(3);
 
             if (Score >= _winScore)
             {

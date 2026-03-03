@@ -4763,12 +4763,11 @@ GameObject:
   - component: {fileID: 403964}
   - component: {fileID: 5403960}
   - component: {fileID: 13503960}
-  - component: {fileID: 5776489181380602230}
   - component: {fileID: 7233488637243450695}
   - component: {fileID: 3134061462478582562}
   m_Layer: 10
   m_Name: BasketballFire
-  m_TagString: Basketball
+  m_TagString: FireBasketball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4816,7 +4815,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 2
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!135 &13503960
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4838,18 +4837,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.23
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5776489181380602230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9256adbf4af745645ab853c7aa92fe7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7233488637243450695
 MonoBehaviour:
   m_ObjectHideFlags: 0
