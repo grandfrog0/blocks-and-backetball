@@ -12830,6 +12830,7 @@ GameObject:
   - component: {fileID: 833756459}
   - component: {fileID: 833756460}
   - component: {fileID: 833756461}
+  - component: {fileID: 833756462}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -13116,6 +13117,19 @@ MonoBehaviour:
   CurrentLevel: 0
   cameraCinemachine: {fileID: 1129920872}
   basketMover: {fileID: 1176095318}
+--- !u!114 &833756462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833756455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ccf48d68a8ca5b4489a9bba5ee33c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 9ad50f66cc5fd6042bcb2633ff21b637, type: 2}
 --- !u!1 &845389191
 GameObject:
   m_ObjectHideFlags: 0

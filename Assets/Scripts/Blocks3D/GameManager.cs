@@ -40,10 +40,10 @@ namespace Blocks3D
         private float _score;
         private float BestScore
         {
-            get => dailyRewardManager.DailyRewardConfig.UserConfig.BestScore;
+            get => dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.BestScore;
             set
             {
-                dailyRewardManager.DailyRewardConfig.UserConfig.BestScore = value;
+                dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.BestScore = value;
                 OnBestChanged.Invoke(value);
             }
         }

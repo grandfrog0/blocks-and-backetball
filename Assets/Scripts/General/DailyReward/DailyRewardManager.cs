@@ -19,22 +19,21 @@ public class DailyRewardManager : MonoBehaviour
 
     public DateTime PrizeTime
     {
-        get => DailyRewardConfig.UserConfig.PrizeTime;
-        set => DailyRewardConfig.UserConfig.PrizeTime = value;
+        get => SettingsLoader.DailyRewardConfig.UserConfig.PrizeTime;
+        set => SettingsLoader.DailyRewardConfig.UserConfig.PrizeTime = value;
     }
 
-    public DailyRewardConfig DailyRewardConfig { get; private set; }
-    private XmlItemParser<DailyRewardConfig> _parser;
+    public SettingsLoader SettingsLoader;
 
     private void TakeReward()
     {
-        int rewardIndex = DailyRewardConfig.UserConfig.DailyRewards.IndexOf(DailyRewardConfig.UserConfig.LastReward);
-        rewardIndex = Mathf.Clamp(++rewardIndex, 0, DailyRewardConfig.UserConfig.DailyRewards.Count - 1);
-        float reward = DailyRewardConfig.UserConfig.DailyRewards[rewardIndex];
+        int rewardIndex = SettingsLoader.DailyRewardConfig.UserConfig.DailyRewards.IndexOf(SettingsLoader.DailyRewardConfig.UserConfig.LastReward);
+        rewardIndex = Mathf.Clamp(++rewardIndex, 0, SettingsLoader.DailyRewardConfig.UserConfig.DailyRewards.Count - 1);
+        float reward = SettingsLoader.DailyRewardConfig.UserConfig.DailyRewards[rewardIndex];
 
         AddCoins(reward);
 
-        DailyRewardConfig.UserConfig.LastReward = reward;
+        SettingsLoader.DailyRewardConfig.UserConfig.LastReward = reward;
         rewardText.SetValue(reward);
 
     }
@@ -50,7 +49,7 @@ public class DailyRewardManager : MonoBehaviour
         {
             OnBeforeDailyRewardGot.Invoke();
             TakeReward();
-            PrizeTime = DateTime.Now + new TimeSpan(DailyRewardConfig.RefreshRewardTime);
+            PrizeTime = DateTime.Now + new TimeSpan(SettingsLoader.DailyRewardConfig.RefreshRewardTime);
             Refresh();
         }
     }
@@ -88,16 +87,12 @@ public class DailyRewardManager : MonoBehaviour
             return;
         }
 
-        _parser = new XmlItemParser<DailyRewardConfig>("General/DailyReward.xml", DailyRewardConfig);
-        _parser.Load();
-        DailyRewardConfig = _parser.Value;
-
         coinsText.SetValue(GlobalManager.Instance.Coins);
         StartCoroutine(UpdateTimeLeftRoutine());
     }
     private void OnDisable()
     {
-        _parser?.Save();
+        SettingsLoader.Save();
     }
 
     private IEnumerator UpdateTimeLeftRoutine()

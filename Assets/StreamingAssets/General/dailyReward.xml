@@ -4,7 +4,7 @@
     <BestScore>5</BestScore>
     <Coins>2</Coins>
     <SettingsConfig>
-      <IsSoundOn>false</IsSoundOn>
+      <IsSoundOn>true</IsSoundOn>
       <IsMusicOn>true</IsMusicOn>
     </SettingsConfig>
     <DailyRewards>

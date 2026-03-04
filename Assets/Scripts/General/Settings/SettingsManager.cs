@@ -11,13 +11,21 @@ public class SettingsManager : MonoBehaviour
 
     public bool IsSoundOn
     {
-        get => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn;
-        set => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn = value;
+        get => dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn;
+        set
+        {
+            dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.SettingsConfig.IsSoundOn = value;
+            OnSoundValueChanged.Invoke(value);
+        }
     }
     public bool IsMusicOn
     {
-        get => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn;
-        set => dailyRewardManager.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn = value;
+        get => dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn;
+        set
+        {
+            dailyRewardManager.SettingsLoader.DailyRewardConfig.UserConfig.SettingsConfig.IsMusicOn = value;
+            OnMusicValueChanged.Invoke(value);
+        }
     }
 
     private void Start()
