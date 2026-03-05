@@ -3683,7 +3683,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  RoundTime: 20
+  LevelTime: 30
   PlacementConfig: {fileID: 11400000, guid: 3471abe3cf8fae648baf1d13b08a25cf, type: 2}
   gameFieldTransform: {fileID: 1191850470}
   cornerPrefab: {fileID: 3931116224453097775, guid: 1b43b7a2acf85e844bfe524d62aeba12, type: 3}
@@ -3782,6 +3782,7 @@ MonoBehaviour:
   coinsText: {fileID: 734836708}
   waitRewardFormat: Reward in<br>{0:00}:{1:00}:{2:00}
   readyRewardFormat: Reward is ready!
+  storeData: {fileID: 11400000, guid: a465b02130433474b884773011fd3df2, type: 2}
   SettingsLoader: {fileID: 833756462}
 --- !u!114 &833756460
 MonoBehaviour:
@@ -4361,6 +4362,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3712463453524891253, guid: 4df9e670bb3c36b4b81387e859e93d4a, type: 3}
   m_PrefabInstance: {fileID: 880610188}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &887172688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 887172691}
+  - component: {fileID: 887172690}
+  - component: {fileID: 887172689}
+  m_Layer: 0
+  m_Name: Launchable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &887172689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887172688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376f081ee0009cb4e9e047c5ab6819f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &887172690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887172688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b28936a71da9e74e9e367321b7db7ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnConfigPathGot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 887172689}
+        m_TargetAssemblyTypeName: Launchable, Assembly-CSharp
+        m_MethodName: LoadConfig
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &887172691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887172688}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &901641040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6388,7 +6461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1529404613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9184,6 +9257,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1129920871}
   - {fileID: 833756457}
+  - {fileID: 887172691}
   - {fileID: 1867368279}
   - {fileID: 535762450}
   - {fileID: 1267051447}

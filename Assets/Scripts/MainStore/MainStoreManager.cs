@@ -11,25 +11,15 @@ namespace MainStore
 {
     public class MainStoreManager : MonoBehaviour
     {
-
         [SerializeField] MinigameView minigameViewPrefab;
         [SerializeField] Transform minigameViewParent;
         private List<MinigameView> _minigameViews = new();
 
-        //[SerializeField] Sprite serializeSprite;
+        [SerializeField] AppLauncher launcher;
 
         public void Start()
         {
             Debug.Log(("minigames load", string.Join(", ", GlobalManager.Instance.Minigames)));
-
-            //SpriteData data = new SpriteData()
-            //{
-            //    Width = serializeSprite.texture.width,
-            //    Height = serializeSprite.texture.height,
-            //    TextureBytes = ImageConversion.EncodeToPNG(serializeSprite.texture)
-            //};
-            //GlobalManager.Instance.Minigames[1].SpriteData = data;
-
             RefreshMinigames();
         }
 
@@ -44,15 +34,9 @@ namespace MainStore
             foreach (StoreMinigame minigame in GlobalManager.Instance.Minigames)
             {
                 MinigameView view = Instantiate(minigameViewPrefab, minigameViewParent);
-                view.Subscribe(minigame, () => LoadScene(minigame));
+                view.Subscribe(minigame, () => launcher.LaunchExternalApp(minigame.ExePath, GlobalManager.Instance.MinigamesSavePaths[GlobalManager.Instance.Minigames.IndexOf(minigame)]));
                 _minigameViews.Add(view);
             }
-        }
-
-        public void LoadScene(StoreMinigame minigame)
-        {
-            GlobalManager.Instance.CurrentMinigame = minigame;
-            SceneManager.LoadScene(minigame.SceneName);
         }
     }
 }

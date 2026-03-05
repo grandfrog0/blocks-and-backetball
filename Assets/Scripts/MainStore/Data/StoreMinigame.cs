@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ namespace MainStore
     [Serializable]
     public class StoreMinigame
     {
-        public string SceneName;
+        public string ExePath;
 
         public SpriteData SpriteData;
         public Sprite Icon
@@ -24,6 +25,6 @@ namespace MainStore
         public float IngameTime;
         public float Best;
 
-        public override string ToString() => SceneName;
+        public override string ToString() => Path.GetFileName(ExePath);
     }
 }

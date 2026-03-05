@@ -17,6 +17,13 @@ public class DailyRewardManager : MonoBehaviour
     [SerializeField] string waitRewardFormat = "Reward in<br>{0:00}:{1:00}:{2:00}";
     [SerializeField] string readyRewardFormat = "Reward is ready!";
 
+    [SerializeField] StoreData storeData;
+    public float Coins
+    {
+        get => storeData.Coins;
+        set => storeData.Coins = value;
+    }
+
     public DateTime PrizeTime
     {
         get => SettingsLoader.DailyRewardConfig.UserConfig.PrizeTime;
@@ -40,8 +47,8 @@ public class DailyRewardManager : MonoBehaviour
 
     public void AddCoins(float value)
     {
-        GlobalManager.Instance.Coins += value;
-        coinsText.SetValue(GlobalManager.Instance.Coins);
+        Coins += value;
+        coinsText.SetValue(Coins);
     }
     public void TryTakeReward()
     {
@@ -81,13 +88,7 @@ public class DailyRewardManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (GlobalManager.Instance == null)
-        {
-            SceneManager.LoadScene(0);
-            return;
-        }
-
-        coinsText.SetValue(GlobalManager.Instance.Coins);
+        coinsText.SetValue(Coins);
         StartCoroutine(UpdateTimeLeftRoutine());
     }
     private void OnDisable()

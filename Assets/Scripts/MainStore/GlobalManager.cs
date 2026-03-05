@@ -2,22 +2,15 @@ using MainStore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance { get; private set; }
-
-    public StoreMinigame CurrentMinigame { get; set; }
-    public string CurrentMinigameSavePath => MinigamesSavePaths[Minigames.IndexOf(CurrentMinigame)];
     [SerializeField] StoreData storeData;
-
-    public float Coins
-    {
-        get => storeData.Coins;
-        set => storeData.Coins = value;
-    }
 
     public UnityEvent OnMinigamesRefresh = new();
     public List<StoreMinigame> Minigames => storeData.Minigames;
@@ -45,28 +38,27 @@ public class GlobalManager : MonoBehaviour
         MinigamesSavePaths.AddRange(_minigamesParser.SavePaths);
     }
 
-    public void AddMinigame(string minigamePath)
+    public void AddMinigame(string exePath)
     {
-        try
+        // if minigames already has config for this exe file
+        if (Minigames.Any(x => x.ExePath == exePath))
         {
-            string json = File.ReadAllText(minigamePath);
-            StoreMinigame minigame = JsonUtility.FromJson<StoreMinigame>(json);
-
-            Minigames.Add(minigame);
-            _minigamesParser.Save();
-
-            OnMinigamesRefresh.Invoke();
+            Debug.Log("config already exists.");
+            return;
         }
-        catch (Exception e)
+
+        StoreMinigame storeMinigame = new StoreMinigame()
         {
-            Debug.Log("Exception occured: " + e);
-        }
-    }
+            ExePath = exePath,
+            Best = 0,
+            IngameTime = 0,
+            SpriteData = new SpriteData(),
+        };
+        Minigames.Add(storeMinigame);
+        MinigamesSavePaths.Add(Path.Combine(MinigamesPath, storeMinigame.ToString()));
+        Debug.Log(Path.Combine(MinigamesPath, storeMinigame.ToString()));
 
-    private void OnApplicationQuit()
-    {
         _minigamesParser.Save();
-        Debug.Log(("minigames save", string.Join(", ", Minigames)));
-        //storeData = storeDataParser.Value;
+        OnMinigamesRefresh.Invoke();
     }
 }

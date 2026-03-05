@@ -226,6 +226,9 @@ namespace Blocks3D
         {
             OnBeforeGameEnd.Invoke();
 
+            Launchable.CurrentMinigame.IngameTime += IngameTime;
+            IngameTime = 0;
+
             if (BestScore < _score)
                 BestScore = _score;
         }
@@ -233,15 +236,6 @@ namespace Blocks3D
         private void Start()
         {
             OnBestChanged.Invoke(BestScore);
-        }
-
-        private void OnDestroy()
-        {
-            if (GlobalManager.Instance)
-            {
-                GlobalManager.Instance.CurrentMinigame.IngameTime += IngameTime;
-            }
-            else Debug.Log("GlobalManager Instance does not exists!");
         }
     }
 }

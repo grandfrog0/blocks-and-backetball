@@ -39,11 +39,12 @@ namespace Basketball
         }
         public int Best
         {
-            get => (int)GlobalManager.Instance.CurrentMinigame.Best;
+            get => (int)Launchable.CurrentMinigame.Best;
             set
             {
-                GlobalManager.Instance.CurrentMinigame.Best = (int)value;
+                Launchable.CurrentMinigame.Best = (int)value;
                 OnBestChanged.Invoke((int)value);
+                Debug.Log("New launchable current minigame best value: " + value);
             }
         }
         private int _winScore;
@@ -78,12 +79,6 @@ namespace Basketball
         
         private void Start()
         {
-            if (GlobalManager.Instance == null)
-            {
-                SceneManager.LoadScene(0);
-                return;
-            }
-
             Load();
             OnSceneStart.Invoke();
 
@@ -115,6 +110,9 @@ namespace Basketball
                 _ingameTime += 1;
                 yield return new WaitForSeconds(1);
             }
+
+            Launchable.CurrentMinigame.IngameTime += _ingameTime;
+            _ingameTime = 0;
 
             IsLastThrow = true;
             cameraCinemachine.SetState(4);
@@ -161,15 +159,6 @@ namespace Basketball
                 LevelAvailableTime = 30
             };
             _gameConfigParser.Save();
-        }
-
-        private void OnDestroy()
-        {
-            if (GlobalManager.Instance)
-            {
-                GlobalManager.Instance.CurrentMinigame.IngameTime += _ingameTime;
-            }
-            else Debug.Log("GlobalManager Instance does not exists!");
         }
     }
 }
