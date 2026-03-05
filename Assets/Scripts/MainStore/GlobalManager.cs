@@ -1,10 +1,9 @@
 using MainStore;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -20,10 +19,12 @@ public class GlobalManager : MonoBehaviour
         set => storeData.Coins = value;
     }
 
+    public UnityEvent OnMinigamesRefresh = new();
     public List<StoreMinigame> Minigames => storeData.Minigames;
     public List<string> MinigamesSavePaths { get; } = new();
-    
+
     private string MinigamesPath => Path.Combine("General", "Minigames");
+    private string StoreDataPath => Path.Combine("General", "StoreData.json");
     private Parser<StoreMinigame> _minigamesParser;
 
     private void Awake()
@@ -37,20 +38,35 @@ public class GlobalManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        _minigamesParser = new Parser<StoreMinigame>(MinigamesPath, GlobalManager.Instance.Minigames);
+        _minigamesParser = new Parser<StoreMinigame>(MinigamesPath, Minigames);
         _minigamesParser.Load();
-
-        foreach(StoreMinigame game in GlobalManager.Instance.Minigames)
-        {
-            //game.
-        }
+        OnMinigamesRefresh.Invoke();
 
         MinigamesSavePaths.AddRange(_minigamesParser.SavePaths);
+    }
+
+    public void AddMinigame(string minigamePath)
+    {
+        try
+        {
+            string json = File.ReadAllText(minigamePath);
+            StoreMinigame minigame = JsonUtility.FromJson<StoreMinigame>(json);
+
+            Minigames.Add(minigame);
+            _minigamesParser.Save();
+
+            OnMinigamesRefresh.Invoke();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Exception occured: " + e);
+        }
     }
 
     private void OnApplicationQuit()
     {
         _minigamesParser.Save();
-        Debug.Log(("minigames save", string.Join(", ", GlobalManager.Instance.Minigames)));
+        Debug.Log(("minigames save", string.Join(", ", Minigames)));
+        //storeData = storeDataParser.Value;
     }
 }

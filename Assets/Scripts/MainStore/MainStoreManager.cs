@@ -14,8 +14,9 @@ namespace MainStore
 
         [SerializeField] MinigameView minigameViewPrefab;
         [SerializeField] Transform minigameViewParent;
+        private List<MinigameView> _minigameViews = new();
 
-        [SerializeField] Sprite serializeSprite;
+        //[SerializeField] Sprite serializeSprite;
 
         public void Start()
         {
@@ -29,10 +30,22 @@ namespace MainStore
             //};
             //GlobalManager.Instance.Minigames[1].SpriteData = data;
 
+            RefreshMinigames();
+        }
+
+        public void RefreshMinigames()
+        {
+            foreach (MinigameView view in _minigameViews)
+            {
+                Destroy(view.gameObject);
+            }
+            _minigameViews.Clear();
+
             foreach (StoreMinigame minigame in GlobalManager.Instance.Minigames)
             {
                 MinigameView view = Instantiate(minigameViewPrefab, minigameViewParent);
                 view.Subscribe(minigame, () => LoadScene(minigame));
+                _minigameViews.Add(view);
             }
         }
 
