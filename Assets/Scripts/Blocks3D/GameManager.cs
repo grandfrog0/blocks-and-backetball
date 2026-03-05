@@ -16,7 +16,8 @@ namespace Blocks3D
         public UnityEvent OnGameLose;
 
         public bool IsGameStarted => _gameRoutine != null;
-        public float RoundTime = 20f;
+        public float LevelTime = 30f;
+        private float _levelTimeLeft;
         private Coroutine _gameRoutine;
 
         public BlocksPlacement PlacementConfig;
@@ -176,9 +177,9 @@ namespace Blocks3D
             PrepareGameField();
 
             float period = 1f;
-            for (float t = RoundTime; t >= 0; t -= period)
+            for (_levelTimeLeft = LevelTime; _levelTimeLeft >= 0; _levelTimeLeft -= period)
             {
-                OnTimerPercentChanged.Invoke(t / RoundTime);
+                OnTimerPercentChanged.Invoke(_levelTimeLeft / LevelTime);
                 yield return new WaitForSeconds(period);
                 IngameTime += period;
             }
@@ -186,6 +187,7 @@ namespace Blocks3D
             PrepareResults();
             _gameRoutine = null;
             OnGameWin.Invoke();
+
         }
 
         public void LoseGame()
@@ -201,6 +203,9 @@ namespace Blocks3D
 
         public void Next()
         {
+            _levelTimeLeft = LevelTime;
+            OnTimerPercentChanged.Invoke(1);
+
             _score++;
             dailyRewardManager.AddCoins(1);
             OnScoreChanged.Invoke(_score);
