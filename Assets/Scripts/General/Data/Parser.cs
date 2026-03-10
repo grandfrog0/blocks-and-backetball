@@ -1,13 +1,11 @@
-using Blocks3D;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class Parser<T>
 {
-    private string CurrentFolder { get; set; }
-    private string CurrentPath => Path.Combine(Application.streamingAssetsPath, CurrentFolder);
+    protected string CurrentFolder { get; set; }
+    protected virtual string CurrentPath => Path.Combine(Application.streamingAssetsPath, CurrentFolder);
 
     public List<string> SavePaths = new();
     public List<T> Values;
@@ -43,14 +41,14 @@ public class Parser<T>
     }
 
 
-    public void Save()
+    public virtual void Save()
     {
         DirectoryInfo directory = new DirectoryInfo(CurrentPath);
 
         if (!directory.Exists)
         {
-            Debug.Log("directory " + CurrentPath + " does not exists!");
-            return;
+            directory.Create();
+            Debug.Log("directory " + CurrentPath + " does not exists! Created.");
         }
 
         foreach (T t in Values)

@@ -12,16 +12,9 @@ namespace MainStore
     {
         public string ExePath;
 
-        public SpriteData SpriteData;
-        public Sprite Icon
-        {
-            get
-            {
-                Texture2D texture = new Texture2D(SpriteData.Width, SpriteData.Height);
-                texture.LoadImage(SpriteData.TextureBytes);
-                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
-            }
-        }
+        public Texture2D Texture { get; set; }
+        public Sprite Icon => Sprite.Create(Texture, new Rect(0, 0, Texture.width, Texture.height), Vector2.one * 0.5f);
+
         public float IngameTime;
         public float Best;
 

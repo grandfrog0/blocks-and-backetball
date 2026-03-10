@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Blocks3DShopConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Price>
+    <ValueTupleOfSingleSingle>
+      <Item1>500</Item1>
+      <Item2>0.99</Item2>
+    </ValueTupleOfSingleSingle>
+    <ValueTupleOfSingleSingle>
+      <Item1>1000</Item1>
+      <Item2>1.99</Item2>
+    </ValueTupleOfSingleSingle>
+    <ValueTupleOfSingleSingle>
+      <Item1>2000</Item1>
+      <Item2>3.99</Item2>
+    </ValueTupleOfSingleSingle>
+    <ValueTupleOfSingleSingle>
+      <Item1>4000</Item1>
+      <Item2>7.99</Item2>
+    </ValueTupleOfSingleSingle>
+    <ValueTupleOfSingleSingle>
+      <Item1>8000</Item1>
+      <Item2>15.99</Item2>
+    </ValueTupleOfSingleSingle>
+    <ValueTupleOfSingleSingle>
+      <Item1>10000</Item1>
+      <Item2>19.99</Item2>
+    </ValueTupleOfSingleSingle>
+  </Price>
+</Blocks3DShopConfig>

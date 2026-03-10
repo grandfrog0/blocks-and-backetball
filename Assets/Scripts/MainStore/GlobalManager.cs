@@ -18,7 +18,7 @@ public class GlobalManager : MonoBehaviour
 
     private string MinigamesPath => Path.Combine("General", "Minigames");
     private string StoreDataPath => Path.Combine("General", "StoreData.json");
-    private Parser<StoreMinigame> _minigamesParser;
+    private ApplicationDataParser<StoreMinigame> _minigamesParser;
 
     private void Awake()
     {
@@ -31,11 +31,25 @@ public class GlobalManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        _minigamesParser = new Parser<StoreMinigame>(MinigamesPath, Minigames);
-        _minigamesParser.Load();
-        OnMinigamesRefresh.Invoke();
+        _minigamesParser = new ApplicationDataParser<StoreMinigame>(MinigamesPath, Minigames);
+        LoadMinigames();
+    }
 
+    private void LoadMinigames()
+    {
+        _minigamesParser.Load();
+
+        MinigamesSavePaths.Clear();
         MinigamesSavePaths.AddRange(_minigamesParser.SavePaths);
+
+        for (int i = 0; i < Minigames.Count; i++)
+        {
+            Minigames[i].Texture = WinIconHelper.GetIcon(Minigames[i].ExePath);
+            Debug.Log(Minigames[i].Texture.GetPixelBilinear(5, 5));
+            Debug.Log(Minigames[i].Texture);
+        }
+
+        OnMinigamesRefresh.Invoke();
     }
 
     public void AddMinigame(string exePath)
@@ -52,11 +66,11 @@ public class GlobalManager : MonoBehaviour
             ExePath = exePath,
             Best = 0,
             IngameTime = 0,
-            SpriteData = new SpriteData(),
+            Texture = WinIconHelper.GetIcon(exePath),
         };
+        Debug.Log(storeMinigame.Texture);
         Minigames.Add(storeMinigame);
         MinigamesSavePaths.Add(Path.Combine(MinigamesPath, storeMinigame.ToString()));
-        Debug.Log(Path.Combine(MinigamesPath, storeMinigame.ToString()));
 
         _minigamesParser.Save();
         OnMinigamesRefresh.Invoke();
